@@ -6,12 +6,12 @@ const std::string& Node::getName() const {
 }
 
 
-node_iterator Node::neighboursBegin() const {
+Node::iterator Node::neighboursBegin() const {
     return neighbours_.begin();
 }
 
 
-node_iterator Node::neighboursEnd() const {
+Node::iterator Node::neighboursEnd() const {
     return neighbours_.end();
 }
 

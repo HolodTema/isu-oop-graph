@@ -1,7 +1,8 @@
 #ifndef NODE_HPP
 #define NODE_HPP
 
-typedef std::set<Node*>::const_iterator node_iterator;
+#include <set>
+#include <string>
 
 
 class Node {
@@ -18,6 +19,8 @@ private:
     friend class Graph;
 
 public:
+    
+    using iterator = std::set<Node*>::const_iterator;
 
     Node(const std::string& name):
         name_(name)
@@ -25,10 +28,12 @@ public:
 
     const std::string& getName() const;
 
-    node_iterator neighboursBegin() const;
+    iterator neighboursBegin() const;
 
-    node_iterator neighboursEnd() const;
+    iterator neighboursEnd() const;
 
 };
 
+
 #endif
+

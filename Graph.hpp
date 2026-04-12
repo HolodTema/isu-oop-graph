@@ -1,10 +1,8 @@
-
 #ifndef GRAPH_HPP
 #define GRAPH_HPP
 
-#include <iosfwd>
-
-typedef std::set<Node*>::const_iterator node_iterator;
+#include <set>
+#include "Node.hpp"
 
 
 class Graph {
@@ -22,9 +20,9 @@ public:
 
     void removeEdge(Node* begin, Node* end);
 
-    node_iterator begin() const;
+    Node::iterator begin() const;
 
-    node_iterator end() const;
+    Node::iterator end() const;
 };
 
 #endif
