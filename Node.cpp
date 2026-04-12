@@ -1,5 +1,14 @@
 #include "Node.hpp"
 
+void Node::addNeighbour(Node* neighbour) {
+    neighbours_.insert(neighbour);
+}
+
+
+void Node::removeNeighbour(Node* neighbour) {
+    neighbours_.erase(neighbour);
+}
+
 
 const std::string& Node::getName() const {
     return name_;

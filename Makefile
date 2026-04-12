@@ -11,7 +11,7 @@ TARGET = main
 
 
 # source c++ files
-SOURCES = main.cpp Graph.cpp 
+SOURCES = main.cpp Graph.cpp Node.cpp
 
 
 # default makefile rule
