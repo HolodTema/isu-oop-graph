@@ -75,13 +75,51 @@ void testBfsFromFile() {
     Graph graph("./assets/testgraph.txt");
     std::cout << "Graph from file testgraph.txt:\n";
     std::cout << graph << "\n";
-    for (auto it = graph.begin(); it != graph.end(); ++it) {
 
+    BFS bfs(graph);
+    for (auto it = graph.begin(); it != graph.end(); ++it) {
+        for (auto it2 = graph.begin(); it2 != graph.end(); ++it2) {
+            std::cout << "Have way between " << (*it)->getName() << " and " << (*it2)->getName() << ":\t" << bfs.connected(*it, *it2) << "\n";
+        }
+        std::cout << "\n";
+    }
+}
+
+void splitGraphIntoSubgraphsInFiles(const Graph& graph) {
+    BFS bfs(graph);
+
+    std::vector<Node*> vecAllNodes;
+    for (auto it = graph.begin(); it != graph.end(); ++it) {
+        vecAllNodes.push_back(*it);
+    }
+
+    int subgraphNumber = 0;
+    std::set<Node*, NodePtrComparator> setVisitedNodes;
+    for (Node* startNode : vecAllNodes) {
+        if (setVisitedNodes.find(startNode) != setVisitedNodes.end()) {
+            continue;
+        }
+
+        std::set<Node*, NodePtrComparator> setNodesConnectedToStartNode;
+        for (Node* node : vecAllNodes) {
+            if (setVisitedNodes.find(node) == setVisitedNodes.end()) {
+                if (bfs.connected(startNode, node)) {
+                    setNodesConnectedToStartNode.insert(node);
+                    setVisitedNodes.insert(node);
+                }
+            }
+        }
+
+        std::string filename = "./out/subgraph" + std::to_string(subgraphNumber) + ".txt";
+        std::ofstream ofs(filename);
+        Graph subgraph(setNodesConnectedToStartNode);
+        ofs << subgraph;
+        subgraphNumber++;
     }
 }
 
 int main() {
-    testBfsFromFile();
+    splitGraphIntoSubgraphsInFiles(Graph("./assets/testgraph.txt"));
     return 0;
 }
 

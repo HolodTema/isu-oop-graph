@@ -21,7 +21,7 @@ bool BFS::connected(Node* begin, Node* end) {
 
         setVisited.insert(nextNode);
 
-        for (Node::iterator it = nextNode->neighboursBegin(); it != nextNode->neighboursEnd(); it++) {
+        for (Node::iterator it = nextNode->neighboursBegin(); it != nextNode->neighboursEnd(); ++it) {
             if (setVisited.find(*it) == setVisited.end()) {
                 queueNodes.push(*it);
             }

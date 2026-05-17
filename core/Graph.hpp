@@ -12,11 +12,15 @@
 
 class Graph {
 private:
-    std::set<Node*> nodes_;
+    std::set<Node*, NodePtrComparator> nodes_;
 
 public:
 
     Graph() = default;
+
+    explicit Graph(const std::set<Node*, NodePtrComparator>& setNodes):
+        nodes_(setNodes)
+    { }
 
     explicit Graph(const std::string& filename) {
         std::ifstream ifs(filename);

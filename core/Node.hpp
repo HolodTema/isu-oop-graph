@@ -35,6 +35,14 @@ public:
 
 };
 
+struct NodePtrComparator {
+
+    bool operator()(const Node* a, const Node* b) const {
+        return a->getName() < b->getName();
+    }
+
+};
+
 
 #endif
 
