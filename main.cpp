@@ -26,8 +26,7 @@ int main() {
     graph.addEdge(&node4, &node5);
     graph.addEdge(&node2, &node5);
     
-
-
+    std::cout << graph;
 
     return 0;
 }

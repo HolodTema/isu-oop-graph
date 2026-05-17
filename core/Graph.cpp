@@ -1,4 +1,4 @@
-#include "../Graph.hpp"
+#include "Graph.hpp"
 
 
 void Graph::addNode(Node* node) {
@@ -59,5 +59,29 @@ Node::iterator Graph::begin() const {
 
 Node::iterator Graph::end() const {
     return nodes_.end();
+}
+
+std::ostream& operator<<(std::ostream& os, const Graph& graph) {
+    std::ostream::sentry s(os);
+    if (!s) {
+        return os;
+    }
+
+    std::set<Node*> setPrintedSourceNodes;
+
+    os << "Source  Target\n";
+    for (auto it = graph.begin(); it != graph.end(); ++it) {
+        Node* nodeSource = *it;
+        for (auto it2 = nodeSource->neighboursBegin(); it2 != nodeSource->neighboursEnd(); ++it2) {
+            Node* nodeTarget = *it2;
+            if (setPrintedSourceNodes.find(nodeTarget) != setPrintedSourceNodes.end()) {
+                continue;
+            }
+            os << nodeSource->getName() << "       " << nodeTarget->getName() << "\n";
+        }
+        setPrintedSourceNodes.insert(nodeSource);
+    }
+
+    return os;
 }
 

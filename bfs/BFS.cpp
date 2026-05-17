@@ -1,4 +1,4 @@
-#include "../BFS.hpp"
+#include "BFS.hpp"
 #include <queue>
 #include <set>
 #include "../core/Node.hpp"
