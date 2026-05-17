@@ -5,9 +5,10 @@
 #include <fstream>
 #include <limits>
 #include <string>
+#include <vector>
+#include <map>
 #include <iosfwd>
 #include "Node.hpp"
-
 
 class Graph {
 private:
@@ -25,26 +26,33 @@ public:
 
         ifs.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-        std::string source;
-        std::string target;
-        while (ifs >> source >> target) {
-            Node* node = new Node(source);
-            bool isNeighbourExist = false;
+        std::string nameSource;
+        std::string nameTarget;
+
+        while (ifs >> nameSource >> nameTarget) {
+            Node* nodeSource = nullptr;
+            Node* nodeTarget = nullptr;
             for (auto it = nodes_.begin(); it != nodes_.end(); ++it) {
-                if ((*it)->getName() == target) {
-                    node->addNeighbour(*it);
-                    isNeighbourExist = true;
+                if ((*it)->getName() == nameSource) {
+                    nodeSource = *it;
+                }
+                if ((*it)->getName() == nameTarget) {
+                    nodeTarget = *it;
+                }
+                if (nodeSource && nodeTarget) {
                     break;
                 }
             }
-            if (!isNeighbourExist) {
-                Node* nodeNeighbour = new Node(target);
-                node->addNeighbour(nodeNeighbour);
-                nodes_.insert(nodeNeighbour);
+            if (nodeSource == nullptr) {
+                nodeSource = new Node(nameSource);
+                nodes_.insert(nodeSource);
             }
-            nodes_.insert(node);
+            if (nodeTarget == nullptr) {
+                nodeTarget = new Node(nameTarget);
+                nodes_.insert(nodeTarget);
+            }
+            addEdge(nodeSource, nodeTarget);
         }
-
         ifs.close();
     }
 
