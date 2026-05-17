@@ -1,7 +1,7 @@
 #ifndef BFS_H
 #define BFS_H
 
-#include "Graph.hpp"
+#include "../core/Graph.hpp"
 
 class BFS {
 private:

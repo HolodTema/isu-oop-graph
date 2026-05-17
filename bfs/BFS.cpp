@@ -1,7 +1,7 @@
-#include "BFS.hpp"
+#include "../BFS.hpp"
 #include <queue>
 #include <set>
-#include "Node.hpp"
+#include "../core/Node.hpp"
 
 // goal - determine whether the path between two nodes exists
 // BFS = breadth-first-search

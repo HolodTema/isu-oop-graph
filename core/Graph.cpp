@@ -1,4 +1,4 @@
-#include "Graph.hpp"
+#include "../Graph.hpp"
 
 
 void Graph::addNode(Node* node) {
@@ -14,7 +14,7 @@ void Graph::removeNode(Node* node) {
     nodes_.erase(node);
 
     //for other nodes we need to delete this node from its neighbours
-    for (Node::iterator it = nodes_.begin(); it != nodes_.end(); it++) {
+    for (Node::iterator it = nodes_.begin(); it != nodes_.end(); ++it) {
         (*it)->removeNeighbour(node);
     }
 }

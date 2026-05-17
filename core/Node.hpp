@@ -16,7 +16,6 @@ private:
 
     void removeNeighbour(Node* neighbour);
 
-    friend class Graph;
 
 public:
     
@@ -31,6 +30,8 @@ public:
     iterator neighboursBegin() const;
 
     iterator neighboursEnd() const;
+
+    friend class Graph;
 
 };
 

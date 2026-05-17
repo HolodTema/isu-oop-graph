@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Graph.hpp"
+#include "core/Graph.hpp"
 
 
 int main() {

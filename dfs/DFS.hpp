@@ -1,8 +1,8 @@
 #ifndef DFS_HPP
 #define DFS_HPP
 
-#include "Graph.hpp"
-#include "Node.hpp"
+#include "../core/Graph.hpp"
+#include "../Node.hpp"
 
 class DFS {
 private:
