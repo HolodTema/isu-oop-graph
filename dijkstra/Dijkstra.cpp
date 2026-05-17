@@ -2,6 +2,7 @@
 #include <map>
 #include "PriorityQueue.hpp"
 #include "MarkedNode.hpp"
+#include "WeightMapWrapper.hpp"
 
 static Way unroll(std::map<Node*, MarkedNode>& mapVisited, Node* begin, Node* curr) {
 	Way way;
@@ -29,7 +30,7 @@ Way Dijkstra::getShortestWay(Node *begin, Node *end) {
 		}
 
 		for (auto it = nextMarkedNode.node->neighboursBegin(); it != nextMarkedNode.node->neighboursEnd(); ++it) {
-			int weight = (*it)->getWeight(nextMarkedNode.node) + nextMarkedNode.mark;
+			int weight = weightMapWrapper_.getEdgeWeight(nextMarkedNode.node, *it) + nextMarkedNode.mark;
 			if (mapVisited.find(*it) == mapVisited.end()) {
 				queueNodes.push(MarkedNode(*it, weight, nextMarkedNode.node));
 			}

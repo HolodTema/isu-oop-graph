@@ -11,7 +11,7 @@ TARGET = main
 
 
 # source c++ files
-SOURCES = main.cpp ./core/Graph.cpp ./core/Node.cpp ./bfs/BFS.cpp
+SOURCES = main.cpp ./core/Graph.cpp ./core/Node.cpp ./bfs/BFS.cpp ./dijkstra/Way.cpp ./dijkstra/Dijkstra.cpp
 
 
 # default makefile rule

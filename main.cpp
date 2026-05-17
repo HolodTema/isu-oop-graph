@@ -2,6 +2,8 @@
 
 #include "bfs/BFS.hpp"
 #include "core/Graph.hpp"
+#include "dijkstra/Dijkstra.hpp"
+#include "dijkstra/WeightMapWrapper.hpp"
 
 void testBFS() {
     std::cout << "Test BFS algorithm:\n";
@@ -88,20 +90,17 @@ void testBfsFromFile() {
 void splitGraphIntoSubgraphsInFiles(const Graph& graph) {
     BFS bfs(graph);
 
-    std::vector<Node*> vecAllNodes;
-    for (auto it = graph.begin(); it != graph.end(); ++it) {
-        vecAllNodes.push_back(*it);
-    }
-
     int subgraphNumber = 0;
     std::set<Node*, NodePtrComparator> setVisitedNodes;
-    for (Node* startNode : vecAllNodes) {
+    for (auto it = graph.begin(); it != graph.end(); ++it) {
+        Node* startNode = *it;
         if (setVisitedNodes.find(startNode) != setVisitedNodes.end()) {
             continue;
         }
 
         std::set<Node*, NodePtrComparator> setNodesConnectedToStartNode;
-        for (Node* node : vecAllNodes) {
+        for (auto it2 = graph.begin(); it2 != graph.end(); ++it2) {
+            Node* node = *it2;
             if (setVisitedNodes.find(node) == setVisitedNodes.end()) {
                 if (bfs.connected(startNode, node)) {
                     setNodesConnectedToStartNode.insert(node);
@@ -118,8 +117,89 @@ void splitGraphIntoSubgraphsInFiles(const Graph& graph) {
     }
 }
 
+void testDijkstra() {
+    Node node1("1");
+    Node node2("2");
+    Node node3("3");
+    Node node4("4");
+    Node node5("5");
+    Node node6("6");
+    Node node7("7");
+    Node node8("8");
+    Node node9("9");
+
+    Graph graph;
+    graph.addNode(&node1);
+    graph.addNode(&node2);
+    graph.addNode(&node3);
+    graph.addNode(&node4);
+    graph.addNode(&node5);
+    graph.addNode(&node6);
+    graph.addNode(&node7);
+    graph.addNode(&node8);
+    graph.addNode(&node9);
+
+    graph.addEdge(&node1, &node2);
+    graph.addEdge(&node1, &node3);
+    graph.addEdge(&node1, &node4);
+
+    graph.addEdge(&node2, &node4);
+    graph.addEdge(&node2, &node7);
+
+    graph.addEdge(&node3, &node5);
+
+    graph.addEdge(&node4, &node3);
+    graph.addEdge(&node4, &node5);
+    graph.addEdge(&node4, &node6);
+    graph.addEdge(&node4, &node7);
+
+    graph.addEdge(&node5, &node6);
+    graph.addEdge(&node5, &node9);
+
+    graph.addEdge(&node6, &node8);
+    graph.addEdge(&node6, &node9);
+
+    graph.addEdge(&node7, &node6);
+    graph.addEdge(&node7, &node8);
+
+    graph.addEdge(&node8, &node9);
+
+    WeightMapWrapper wrapper;
+    wrapper.setEdgeWeight(&node1, &node2, 10);
+    wrapper.setEdgeWeight(&node1, &node3, 6);
+    wrapper.setEdgeWeight(&node1, &node4, 8);
+
+    wrapper.setEdgeWeight(&node2, &node4, 5);
+    wrapper.setEdgeWeight(&node2, &node7, 11);
+
+    wrapper.setEdgeWeight(&node3, &node5, 3);
+
+    wrapper.setEdgeWeight(&node4, &node3, 2);
+    wrapper.setEdgeWeight(&node4, &node5, 5);
+    wrapper.setEdgeWeight(&node4, &node6, 7);
+    wrapper.setEdgeWeight(&node4, &node7, 12);
+
+    wrapper.setEdgeWeight(&node5, &node6, 9);
+    wrapper.setEdgeWeight(&node5, &node9, 12);
+
+    wrapper.setEdgeWeight(&node6, &node8, 8);
+    wrapper.setEdgeWeight(&node6, &node9, 10);
+
+    wrapper.setEdgeWeight(&node7, &node6, 4);
+    wrapper.setEdgeWeight(&node7, &node8, 6);
+
+    wrapper.setEdgeWeight(&node8, &node9, 15);
+
+    Dijkstra dijkstra(graph, wrapper);
+    Way way = dijkstra.getShortestWay(&node1, &node9);
+    std::cout << way;
+}
+
 int main() {
-    splitGraphIntoSubgraphsInFiles(Graph("./assets/testgraph.txt"));
+    // splitGraphIntoSubgraphsInFiles(Graph("./assets/testgraph.txt"));
+    // splitGraphIntoSubgraphsInFiles(Graph("./assets/1000.csv"));
+
+    testDijkstra();
     return 0;
 }
 

@@ -27,7 +27,7 @@ public:
 	T pop() {
 		T element = vecElements_.back();
 		vecElements_.pop_back();
-		return T;
+		return element;
 	}
 
 	bool isEmpty() const {
