@@ -18,15 +18,15 @@ public:
 
 	void push(const T& element) {
 		auto it = vecElements_.begin();
-		while ((it != vecElements_.end()) && (it->mark > element.mark)) {
+		while ((it != vecElements_.end()) && (it->mark < element.mark)) {
 			++it;
 		}
 		vecElements_.insert(it, element);
 	}
 
 	T pop() {
-		T element = vecElements_.back();
-		vecElements_.pop_back();
+		T element = vecElements_.front();
+		vecElements_.erase(vecElements_.begin());
 		return element;
 	}
 

@@ -19,12 +19,15 @@ public:
 		mapWeights_[std::make_pair(node1, node2)] = weight;
 	}
 
+	bool hasEdge(Node* node1, Node* node2) const {
+		return mapWeights_.find(std::make_pair(node1, node2)) != mapWeights_.end();
+	}
+
 	int getEdgeWeight(Node* node1, Node* node2) const {
 		std::pair<Node*, Node*> edge = std::make_pair(node1, node2);
 		auto it = mapWeights_.find(edge);
 		if (it == mapWeights_.end()) {
-			return 1;
-			// throw std::runtime_error("Error: there is no weight of this edge.");
+			throw std::runtime_error("Error: there is no weight of this edge.");
 		}
 		return it->second;
 	}

@@ -17,12 +17,15 @@ static Way unroll(std::map<Node*, MarkedNode>& mapVisited, Node* begin, Node* cu
 
 Way Dijkstra::getShortestWay(Node *begin, Node *end) {
 	PriorityQueue<MarkedNode> queueNodes;
-	queueNodes.push(MarkedNode(begin, 0, 0));
+	queueNodes.push(MarkedNode(begin, 0, nullptr));
 
 	std::map<Node*, MarkedNode> mapVisited;
 
 	while (!queueNodes.isEmpty()) {
 		MarkedNode nextMarkedNode = queueNodes.pop();
+		if (mapVisited.find(nextMarkedNode.node) != mapVisited.end()) {
+			continue;
+		}
 		mapVisited[nextMarkedNode.node] = nextMarkedNode;
 
 		if (end == nextMarkedNode.node) {
@@ -30,10 +33,17 @@ Way Dijkstra::getShortestWay(Node *begin, Node *end) {
 		}
 
 		for (auto it = nextMarkedNode.node->neighboursBegin(); it != nextMarkedNode.node->neighboursEnd(); ++it) {
-			int weight = weightMapWrapper_.getEdgeWeight(nextMarkedNode.node, *it) + nextMarkedNode.mark;
-			if (mapVisited.find(*it) == mapVisited.end()) {
-				queueNodes.push(MarkedNode(*it, weight, nextMarkedNode.node));
+			Node* neighbourNode = *it;
+
+			if (!weightMapWrapper_.hasEdge(nextMarkedNode.node, neighbourNode)) {
+				continue;
 			}
+			if (mapVisited.find(neighbourNode) != mapVisited.end()) {
+				continue;
+			}
+
+			int newDistance = weightMapWrapper_.getEdgeWeight(nextMarkedNode.node, neighbourNode) + nextMarkedNode.mark;
+			queueNodes.push(MarkedNode(neighbourNode, newDistance, nextMarkedNode.node));
 		}
 	}
 	return Way();
